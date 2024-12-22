@@ -21,6 +21,7 @@
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            text-align: center;
         }
         input {
             width: 100%;
@@ -53,14 +54,25 @@
             right: 20px;
             width: auto;
         }
+        img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 20px;
+        }
+        #errorMessage {
+            color: red;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="loginForm">
         <h2>Login Page</h2>
+        <img src="icon.png" alt="New Icon">
         <input type="email" id="email" placeholder="Email" required>
         <input type="password" id="password" placeholder="Password" required>
         <button id="enterButton" onclick="login()">Enter</button>
+        <div id="errorMessage"></div>
     </div>
 
     <button id="logoutButton" onclick="logout()" style="display: none;">Log out</button>
@@ -96,9 +108,11 @@
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
                     console.log("Login successful");
+                    document.getElementById('errorMessage').textContent = ""; // Clear any existing errors
                 })
-                .catch((error) => {
-                    alert("Login error: " + error.message);
+                .catch(() => {
+                    // Custom error message displayed on the page
+                    document.getElementById('errorMessage').textContent = "Incorrect login or password. Please try again.";
                 });
         }
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +5,7 @@
     <title>Power BI Report</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="config.js"></script>
     <style>
         body {
             margin: 0;
@@ -67,25 +67,16 @@
 
     <iframe 
         id="reportContainer" 
-        src="https://app.powerbi.com/view?r=eyJrIjoiNjlkMjBmYjItNDljNy00MDQ0LTgyZWQtMjEyMTQxYWJkYzcxIiwidCI6IjZjZjFjYWUyLTZmNTgtNDA3YS04ZWY4LWNiZDY0MjMyYWIzYSIsImMiOjl9"
         allowFullScreen="true">
     </iframe>
 
     <script>
-        // Firebase конфигурация
-        const firebaseConfig = {
-            apiKey: "AIzaSyA-wHAQkA9fTM8VzuiqTG6mne7NHQv8cy4",
-            authDomain: "mayoly-28298.firebaseapp.com",
-            projectId: "mayoly-28298",
-            storageBucket: "mayoly-28298.appspot.com",
-            messagingSenderId: "321318380841",
-            appId: "1:321318380841:web:exampleappid"
-        };
+        // Set iframe source
+        document.getElementById('reportContainer').src = config.powerBiUrl;
 
-        // Инициализация Firebase
-        firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase
+        firebase.initializeApp(config.firebase);
 
-        // Проверка состояния авторизации
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById('loginForm').style.display = 'none';
@@ -98,28 +89,25 @@
             }
         });
 
-        // Функция для входа
         function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
-                    console.log("Вход успешен");
+                    console.log("Login successful");
                 })
                 .catch((error) => {
-                    alert("Ошибка входа: " + error.message);
+                    alert("Login error: " + error.message);
                 });
         }
 
-        // Функция выхода
         function logout() {
             firebase.auth().signOut().then(() => {
-                console.log("Выход выполнен");
+                console.log("Logout successful");
             });
         }
 
-        // Добавление вызова кнопки Enter при нажатии клавиши "Enter"
         document.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 document.getElementById("enterButton").click();

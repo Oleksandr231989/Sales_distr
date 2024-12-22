@@ -15,6 +15,16 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+        #logoContainer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        #logoImage {
+            height: 50px;
+            width: auto;
         }
         #loginForm {
             max-width: 300px;
@@ -63,6 +73,10 @@
     </style>
 </head>
 <body>
+    <div id="logoContainer">
+        <img id="logoImage" src="icon.png" alt="Mayoly Logo">
+    </div>
+
     <div id="loginForm">
         <h2>Login Page</h2>
         <input type="email" id="email" placeholder="Email" required>
@@ -90,11 +104,12 @@
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('reportContainer').style.display = 'block';
                 document.getElementById('logoutButton').style.display = 'block';
+                document.getElementById('logoContainer').style.display = 'none'; // Hide logo when logged in
             } else {
                 document.getElementById('loginForm').style.display = 'block';
                 document.getElementById('reportContainer').style.display = 'none';
                 document.getElementById('logoutButton').style.display = 'none';
-                // Hide error message when logging out
+                document.getElementById('logoContainer').style.display = 'block'; // Show logo when on login page
                 document.getElementById('errorMessage').style.display = 'none';
             }
         });
@@ -109,7 +124,6 @@
                     document.getElementById('errorMessage').style.display = 'none';
                 })
                 .catch((error) => {
-                    // Show error message below button
                     document.getElementById('errorMessage').style.display = 'block';
                 });
         }

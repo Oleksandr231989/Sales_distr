@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Power BI Report</title>
+    <link rel="icon" type="image/png" href="icon.png">
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="config.js"></script>
     <style>
         body {
             margin: 0;
@@ -14,6 +15,16 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+        #logoContainer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        #logoImage {
+            height: 100px; /* Previously 50px, doubled */
+            width: auto;
         }
         #loginForm {
             max-width: 300px;
@@ -53,73 +64,76 @@
             right: 20px;
             width: auto;
         }
+        #errorMessage {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <div id="logoContainer">
+        <img id="logoImage" src="mayoly icon.png" alt="Mayoly Icon">
+    </div>
+
     <div id="loginForm">
-        <h2>Login Page</h2>
+        <h2>Please enter your email and password</h2>
         <input type="email" id="email" placeholder="Email" required>
         <input type="password" id="password" placeholder="Password" required>
         <button id="enterButton" onclick="login()">Enter</button>
+        <div id="errorMessage">Incorrect login or password. Please try again or contact mayoly.reports@gmail.com</div>
     </div>
 
     <button id="logoutButton" onclick="logout()" style="display: none;">Log out</button>
 
     <iframe 
         id="reportContainer" 
-        src="https://app.powerbi.com/view?r=eyJrIjoiNjlkMjBmYjItNDljNy00MDQ0LTgyZWQtMjEyMTQxYWJkYzcxIiwidCI6IjZjZjFjYWUyLTZmNTgtNDA3YS04ZWY4LWNiZDY0MjMyYWIzYSIsImMiOjl9"
         allowFullScreen="true">
     </iframe>
 
     <script>
-        // Firebase конфигурация
-        const firebaseConfig = {
-            apiKey: "AIzaSyA-wHAQkA9fTM8VzuiqTG6mne7NHQv8cy4",
-            authDomain: "mayoly-28298.firebaseapp.com",
-            projectId: "mayoly-28298",
-            storageBucket: "mayoly-28298.appspot.com",
-            messagingSenderId: "321318380841",
-            appId: "1:321318380841:web:exampleappid"
-        };
+        // Set iframe source
+        document.getElementById('reportContainer').src = config.powerBiUrl;
 
-        // Инициализация Firebase
-        firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase
+        firebase.initializeApp(config.firebase);
 
-        // Проверка состояния авторизации
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('reportContainer').style.display = 'block';
                 document.getElementById('logoutButton').style.display = 'block';
+                document.getElementById('logoContainer').style.display = 'none'; // Hide logo when logged in
             } else {
                 document.getElementById('loginForm').style.display = 'block';
                 document.getElementById('reportContainer').style.display = 'none';
                 document.getElementById('logoutButton').style.display = 'none';
+                document.getElementById('logoContainer').style.display = 'block'; // Show logo when on login page
+                document.getElementById('errorMessage').style.display = 'none';
             }
         });
 
-        // Функция для входа
         function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
-                    console.log("Вход успешен");
+                    console.log("Login successful");
+                    document.getElementById('errorMessage').style.display = 'none';
                 })
                 .catch((error) => {
-                    alert("Ошибка входа: " + error.message);
+                    document.getElementById('errorMessage').style.display = 'block';
                 });
         }
 
-        // Функция выхода
         function logout() {
             firebase.auth().signOut().then(() => {
-                console.log("Выход выполнен");
+                console.log("Logout successful");
             });
         }
 
-        // Добавление вызова кнопки Enter при нажатии клавиши "Enter"
         document.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 document.getElementById("enterButton").click();

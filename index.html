@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Power BI Report</title>
+    <link rel="icon" type="image/png" href="icon.png">
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="config.js"></script>
@@ -53,10 +54,6 @@
             right: 20px;
             width: auto;
         }
-        #errorMessage {
-            color: red;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -65,7 +62,6 @@
         <input type="email" id="email" placeholder="Email" required>
         <input type="password" id="password" placeholder="Password" required>
         <button id="enterButton" onclick="login()">Enter</button>
-        <div id="errorMessage"></div>
     </div>
 
     <button id="logoutButton" onclick="logout()" style="display: none;">Log out</button>
@@ -101,11 +97,10 @@
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
                     console.log("Login successful");
-                    document.getElementById('errorMessage').textContent = ""; // Clear any existing errors
                 })
-                .catch(() => {
-                    // Custom error message displayed on the page
-                    document.getElementById('errorMessage').textContent = "Incorrect login or password. Please try again.";
+                .catch((error) => {
+                    // Custom error message
+                    alert("The password doesn't match our records. Please try again");
                 });
         }
 

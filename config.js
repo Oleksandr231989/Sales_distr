@@ -1,5 +1,5 @@
 const config = {
-    powerBiUrl: "https://app.powerbi.com/view?r=eyJrIjoiNjlkMjBmYjItNDljNy00MDQ0LTgyZWQtMjEyMTQxYWJkYzcxIiwidCI6IjZjZjFjYWUyLTZmNTgtNDA3YS04ZWY4LWNiZDY0MjMyYWIzYSIsImMiOjl9",
+    powerBiUrl: "https://app.powerbi.com/view?r=eyJrIjoiZDgzMTE5NjAtMzgyNi00OGZlLWIxOWUtMDQwNDI1MDhiMGRhIiwidCI6IjZjZjFjYWUyLTZmNTgtNDA3YS04ZWY4LWNiZDY0MjMyYWIzYSIsImMiOjl9",
     firebase: {
         apiKey: "AIzaSyA-wHAQkA9fTM8VzuiqTG6mne7NHQv8cy4",
             authDomain: "mayoly-28298.firebaseapp.com",
